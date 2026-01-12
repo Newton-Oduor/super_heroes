@@ -38,6 +38,7 @@ class PowerByID(Resource):
         power = Power.query.get(id)
         if not power:
             return {'error': 'Power not found'}, 404
+        return power.to_dict(), 200
     
 # POST hero power
 class HeroPowers(Resource):
