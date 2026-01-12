@@ -40,6 +40,24 @@ class PowerByID(Resource):
             return {'error': 'Power not found'}, 404
         return power.to_dict(), 200
     
+    def patch(self, id):
+        power = Power.query.get(id)
+        if not power:
+            return {'error': 'Power not found'}, 404
+        
+        data = request.get_json()
+
+        try:
+            if 'description' in data:
+                power.description = data['description']
+
+            db.session.commit()
+            return power.to_dict(), 200
+        
+        except ValueError as e:
+            return {'errors': [str(e)]}, 400
+
+    
 # POST hero power
 class HeroPowers(Resource):
     def post(self):
