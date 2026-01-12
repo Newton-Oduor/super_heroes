@@ -11,8 +11,8 @@ db = SQLAlchemy(metadata=metadata)
 class Hero(db.Model, SerializerMixin):
     __tablename__ = 'heroes'
 
-    id = db.column(db.Integer, primary_key=True)
-    name = db.column(db.string, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.string, nullable=False)
     super_name = db.Column(db.String, nullable=False)
 
     hero_powers = db.relationship('HeroPower', back_populates='hero', cascade='all, delete-orphan')
