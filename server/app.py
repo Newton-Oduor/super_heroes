@@ -23,8 +23,21 @@ class HeroByID(Resource):
     def get(self, id):
         hero = Hero.query.get(id)
         if not hero:
-            return{'error': 'Hero not found'}, 404
+            return {'error': 'Hero not found'}, 404
         return hero.to_dict(), 200
+    
+
+# GET all powers
+class Powers(Resource):
+    def get(self):
+        return [power.to_dict() for power in Power.query.all()], 200
+    
+# GET power by ID
+class PowerByID(Resource):
+    def get(self, id):
+        power = Power.query.get(id)
+        if not power:
+            return {'error': 'Power not found'}, 404
     
 # POST hero power
 class HeroPowers(Resource):
@@ -40,6 +53,13 @@ class HeroPowers(Resource):
         
         except ValueError as e:
             return {'errors': [str(e)]}, 400
+        
+
+api.add_resource(Heroes, "/heroes")
+api.add_resource(HeroByID, "/heroes/<int:id>")
+api.add_resource(Powers, "/powers")
+api.add_resource(PowerByID, "/powers/<int:id>")
+api.add_resource(HeroPowers, "/hero_powers")
 
 
 if __name__ == "__main__":
