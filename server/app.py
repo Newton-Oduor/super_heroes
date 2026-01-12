@@ -25,6 +25,21 @@ class HeroByID(Resource):
         if not hero:
             return{'error': 'Hero not found'}, 404
         return hero.to_dict(), 200
+    
+# POST hero power
+class HeroPowers(Resource):
+    def post(self):
+        data = request.get_json()
+
+        try:
+            hero_power = HeroPower(strength=data["strength"], hero_id=data["hero_id"], power_id=data["power_id"])
+            db.session.add(hero_power)
+            db.session.commit()
+
+            return hero_power.hero.to_dict(), 201
+        
+        except ValueError as e:
+            return {'errors': [str(e)]}, 400
 
 
 if __name__ == "__main__":
